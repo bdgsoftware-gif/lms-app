@@ -7,25 +7,25 @@ export interface FAQ {
 export const faqs: FAQ[] = [
   {
     id: 1,
-    question: "How do I enroll in a course?",
+    question: "আমি কি যেকোনো সময় শুরু করতে পারি?",
     answer:
-      "Simply create an account, choose a course, and enroll. Paid courses require payment.",
+      "হ্যাঁ, আপনি যেকোনো সময় কোর্সে যোগদান করতে পারেন এবং আপনার নিজস্ব গতিতে এগিয়ে যেতে পারেন।",
   },
   {
     id: 2,
-    question: "Do I get a certificate after completion?",
+    question: "কোর্সগুলি কত দীর্ঘ?",
     answer:
-      "Yes. After completing all lessons, you will receive a verifiable certificate.",
+      "কোর্সের দৈর্ঘ্য কোর্সভেদে পরিবর্তিত হয়, তবে বেশিরভাগ কোর্স কয়েক সপ্তাহ থেকে কয়েক মাস পর্যন্ত স্থায়ী হয়।",
   },
   {
     id: 3,
-    question: "Can I access courses anytime?",
+    question: "আমি কি কোর্সের সামগ্রীতে আজীবন অ্যাক্সেস পাব?",
     answer:
-      "Yes. Once enrolled, you have lifetime access to the course content.",
+      "হ্যাঁ। একবার নিবন্ধন করলে, আপনি কোর্সের সামগ্রীতে জীবনসংগতভাবে অ্যাক্সেস পাবেন।",
   },
   {
     id: 4,
-    question: "What payment methods are supported?",
-    answer: "Currently bKash is supported. More gateways will be added soon.",
+    question: "কোর্সের পেমেন্ট মেথডগুলি কী কী?",
+    answer: "বর্তমানে bKash সমর্থিত। আরও গেটওয়েগুলি শীঘ্রই যোগ হবে।",
   },
 ];

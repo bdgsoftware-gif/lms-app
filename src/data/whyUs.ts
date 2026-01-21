@@ -8,27 +8,27 @@ import {
 export const whyUsData = [
   {
     id: 1,
-    title: "Industry Expert Instructors",
-    description: "Learn from professionals actively working in the industry.",
+    title: "স্বাস্থ্য উন্নয়ন",
+    description: "বিজ্ঞানভিত্তিক ও সহজে অনুসরণযোগ্য স্বাস্থ্য কোর্স, যা আপনার দৈনন্দিন জীবনে বাস্তব পরিবর্তন আনবে।",
     icon: FaChalkboardTeacher,
   },
   {
     id: 2,
-    title: "Flexible Learning",
-    description: "Study at your own pace with lifetime course access.",
+    title: "আর্থিক উন্নয়ন",
+    description: "দক্ষতা, মানসিকতা ও সঠিক পরিকল্পনার মাধ্যমে আর্থিকভাবে শক্তিশালী হওয়ার বাস্তব শিক্ষা।",
     icon: FaClock,
   },
   {
     id: 3,
-    title: "Strong Learning Community",
-    description: "Connect with thousands of learners and mentors.",
+    title: "আত্মিক উন্নয়ন",
+    description: "শান্ত মন, আত্মনিয়ন্ত্রণ ও জীবনের প্রকৃত উদ্দেশ্য খুঁজে পাওয়ার জন্য গাইডেড আত্মিক শিক্ষা।",
     icon: FaUsers,
   },
   {
     id: 4,
-    title: "Trusted & Secure Platform",
+    title: "ধাপে ধাপে শেখার প্রমাণিত পদ্ধতি",
     description:
-      "Your data and payments are protected with enterprise security.",
+      "আগের মডিউল সম্পন্ন না করলে পরেরটি আনলক হয় না— কারণ সত্যিকারের উন্নতি আসে শৃঙ্খলা ও ধারাবাহিকতায়",
     icon: FaShieldAlt,
   },
 ];

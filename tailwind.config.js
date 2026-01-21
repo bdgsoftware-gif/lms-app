@@ -57,6 +57,12 @@ export default {
           primary: "#2F7C74",
           accent: "#27665f",
         },
+        bg: {
+          light: "#FBFEFB",
+          card: "#EAF2F1",
+          primary: "#102B29",
+          accent: "#27665f",
+        },
       },
       animation: {
         partners: "partners 25s linear infinite reverse",

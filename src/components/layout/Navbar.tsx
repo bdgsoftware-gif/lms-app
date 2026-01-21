@@ -140,7 +140,7 @@ const Navbar = () => {
 
               <Link
                 to="/register"
-                className="px-6 py-3 bg-text-primary font-inter text-white rounded-3xl hover:bg-[#266964] transition-colors flex items-center gap-2"
+                className="px-6 py-3 font-inter text-white rounded-3xl bg-button-primary hover:bg-button-accent transition-colors flex items-center gap-2"
               >
                 সাইন আপ
               </Link>

@@ -10,10 +10,10 @@ const HowItWorksSection = () => {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-8xl mx-auto px-4 text-white">
+      <div className="relative max-w-8xl mx-auto px-4 text-white font-inter">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-xl md:text-[42px] font-normal">
+          <h2 className="text-[32px] md:text-[42px] leading-relaxed text-text-primary font-normal">
             কীভাবে শুরু করবেন?
           </h2>
           <p className="mt-8 text-white/80">

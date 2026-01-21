@@ -8,30 +8,30 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Rakib Hasan",
-    role: "Junior Developer",
+    name: "মোঃ আনিম রাফসান",
+    role: "",
     quote:
-      "This platform completely changed how I learn. The courses are practical and easy to follow.",
+      "অসাধারণ কোর্স! আমার বাংলা উল্লেখযোগ্যভাবে উন্নত হয়েছে।",
   },
   {
     id: 2,
-    name: "Nusrat Jahan",
-    role: "Software Engineer",
+    name: "নুসরাত জাহান",
+    role: "",
     quote:
-      "Clear explanations, structured lessons, and real-world examples. Highly recommended!",
+      "অসাধারণ কোর্স! আমার বাংলা উল্লেখযোগ্যভাবে উন্নত হয়েছে।",
   },
   {
     id: 3,
-    name: "Mahmudul Islam",
-    role: "Freelancer",
+    name: "মাহমুদুল ইসলাম",
+    role: "",
     quote:
-      "I was able to land my first client after completing the Laravel course here.",
+      "অসাধারণ কোর্স! আমার বাংলা উল্লেখযোগ্যভাবে উন্নত হয়েছে।",
   },
   {
     id: 4,
-    name: "Fahim Rahman",
-    role: "CS Student",
+    name: "ফাহিম রহমান",
+    role: "",
     quote:
-      "The progress tracking and certificates motivated me to finish courses properly.",
+      "অসাধারণ কোর্স! আমার বাংলা উল্লেখযোগ্যভাবে উন্নত হয়েছে।",
   },
 ];

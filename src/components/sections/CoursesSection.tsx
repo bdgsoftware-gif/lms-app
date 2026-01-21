@@ -8,7 +8,7 @@ const CoursesSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-14">
           <div className="font-inter">
-            <h2 className="text-4xl font-bold">আমাদের জনপ্রিয় কোর্সসমূহ</h2>
+            <h2 className="text-[32px] md:text-[42px] leading-relaxed text-text-primary font-normal">আমাদের জনপ্রিয় কোর্সসমূহ</h2>
             <p className="mt-6 text-lg text-text-secondary max-w-xl">
               সকল স্তরের জন্য বিশেষভাবে ডিজাইন করা কোর্স
             </p>

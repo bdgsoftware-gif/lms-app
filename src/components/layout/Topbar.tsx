@@ -61,7 +61,7 @@ const Topbar = () => {
 
           {/* Language Selector */}
           <div className="relative group ml-3 text-sm">
-            <button className="bg-[#495E5C] px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:opacity-90 transition-opacity">
+            <button className="h-8 w-auto bg-[#495E5C] px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:opacity-90 transition-opacity">
               {/* Bangladesh Flag SVG */}
               <svg className="w-4 h-4" viewBox="0 0 20 16" fill="none">
                 <rect width="20" height="16" fill="#006A4E" />

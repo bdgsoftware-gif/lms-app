@@ -19,15 +19,15 @@ const TestimonialsSection = () => {
   }, [paused]);
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-5xl mx-auto px-4 text-center">
+    <section className="py-12 bg-white">
+      <div className="max-w-5xl mx-auto px-4 text-center font-inter">
         {/* Header */}
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
-          What Our Students Say
+        <h2 className="text-[32px] md:text-[42px] leading-relaxed text-text-primary font-normal mb-6">
+          শিক্ষার্থীরা কী বলছেন
         </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-14">
+        {/* <p className="text-gray-600 max-w-2xl mx-auto mb-14">
           Thousands of learners trust our platform to grow their skills.
-        </p>
+        </p> */}
 
         {/* Slider */}
         <div
@@ -42,7 +42,7 @@ const TestimonialsSection = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6 }}
-              className="bg-[#FBFEFE] border rounded-2xl p-8 shadow-sm max-w-3xl mx-auto"
+              className="bg-bg-light border rounded-2xl p-8 shadow-sm max-w-3xl mx-auto"
             >
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 “{testimonials[index].quote}”

@@ -1,8 +1,8 @@
 export const partners = [
-  { id: 1, name: "Google" },
-  { id: 2, name: "Microsoft" },
-  { id: 3, name: "Amazon" },
-  { id: 4, name: "Meta" },
-  { id: 5, name: "Netflix" },
-  { id: 6, name: "Spotify" },
+  { id: 1, name: "Bionic" },
+  { id: 2, name: "La La Dia" },
+  { id: 3, name: "Azmion" },
+  { id: 4, name: "Sangram" },
+  { id: 5, name: "Tycoon" },
+  { id: 6, name: "Safar Travels" },
 ];
