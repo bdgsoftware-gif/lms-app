@@ -146,16 +146,59 @@ const Navbar = () => {
               </Link>
             </>
           ) : (
-            <div className="relative group">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-text-primary to-[#3a9a91] flex items-center justify-center cursor-pointer text-white font-semibold shadow-md">
-                {user.name?.[0]?.toUpperCase()}
+            <div className="relative group py-2 px-4 bg-bg-card rounded-full">
+              <div className="flex justify-between items-center gap-2 ">
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="w-5 h-5 object-cover rounded-full"
+                  />
+                ) : (
+                  <span className="text-lg font-medium text-gray-700">
+                    {user.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .slice(0, 2)
+                      .join("")}
+                  </span>
+                )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 inline-flex"
+                  viewBox="0 0 32 32"
+                >
+                  <g data-name="Layer 2">
+                    <path
+                      fill="#2f7c74"
+                      d="M23.625 29.677a1.86 1.86 0 0 1-1.315-.544l-4.47-4.47a3.94 3.94 0 0 1 .599-6.059 4 4 0 0 1 5.05.579l.136.136.137-.136a3.995 3.995 0 0 1 5.05-.577 3.937 3.937 0 0 1 .598 6.057l-4.469 4.47a1.86 1.86 0 0 1-1.316.544m-3.062-10.212a2.27 2.27 0 0 0-1.282.382 2.438 2.438 0 0 0-.38 3.756l4.47 4.47a.36.36 0 0 0 .51 0l4.469-4.47a2.437 2.437 0 0 0-.38-3.755 2.52 2.52 0 0 0-3.147.395l-.667.667a.75.75 0 0 1-1.06 0l-.668-.667a2.66 2.66 0 0 0-1.865-.778"
+                      data-original="#7fbde7"
+                    />
+                    <path
+                      d="M13 14.75H4A1.75 1.75 0 0 1 2.25 13V4A1.75 1.75 0 0 1 4 2.25h9A1.75 1.75 0 0 1 14.75 4v9A1.75 1.75 0 0 1 13 14.75m-9-11a.25.25 0 0 0-.25.25v9a.25.25 0 0 0 .25.25h9a.25.25 0 0 0 .25-.25V4a.25.25 0 0 0-.25-.25zm9 26H4A1.75 1.75 0 0 1 2.25 28v-9A1.75 1.75 0 0 1 4 17.25h9A1.75 1.75 0 0 1 14.75 19v9A1.75 1.75 0 0 1 13 29.75m-9-11a.25.25 0 0 0-.25.25v9a.25.25 0 0 0 .25.25h9a.25.25 0 0 0 .25-.25v-9a.25.25 0 0 0-.25-.25zm24-4h-9A1.75 1.75 0 0 1 17.25 13V4A1.75 1.75 0 0 1 19 2.25h9A1.75 1.75 0 0 1 29.75 4v9A1.75 1.75 0 0 1 28 14.75m-9-11a.25.25 0 0 0-.25.25v9a.25.25 0 0 0 .25.25h9a.25.25 0 0 0 .25-.25V4a.25.25 0 0 0-.25-.25z"
+                      fill="#1f2a24"
+                      data-original="#232323"
+                    />
+                  </g>
+                </svg>
               </div>
 
               {/* Hover Menu */}
               <div className="absolute right-0 mt-2 w-56 bg-white shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto border border-gray-100 z-50">
                 <div className="p-4 border-b">
-                  <p className="font-semibold text-gray-800">{user.name}</p>
-                  <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                  <div className="user-card flex items-center justify-start gap-3">
+                    <img
+                      src={user?.avatar}
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <div className="details">
+                      <p className="font-semibold text-gray-800">{user.name}</p>
+                      <p className="text-sm text-gray-500 truncate">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <Link
                   to="/student/dashboard"

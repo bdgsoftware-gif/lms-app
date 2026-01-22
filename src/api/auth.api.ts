@@ -1,4 +1,4 @@
-import api from './axios';
+import api from "./axios";
 
 export interface LoginPayload {
   email: string;
@@ -13,20 +13,21 @@ export interface RegisterPayload {
 }
 
 export const login = async (payload: LoginPayload) => {
-  const res = await api.post('/auth/login', payload);
+  const res = await api.post("/auth/login", payload);
   return res.data;
 };
 
 export const register = async (payload: RegisterPayload) => {
-  const res = await api.post('/auth/register', payload);
+  const res = await api.post("/auth/register", payload);
   return res.data;
 };
 
 export const fetchMe = async () => {
-  const res = await api.get('/auth/me');
+  const res = await api.get("/auth/me");
+  // console.log(res.data.user);
   return res.data.user;
 };
 
 export const logout = async () => {
-  await api.post('/auth/logout');
+  await api.post("/auth/logout");
 };

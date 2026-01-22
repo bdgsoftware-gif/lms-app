@@ -21,7 +21,7 @@ const Topbar = () => {
         </div>
 
         {/* Center */}
-        <div className="text-center flex-1 md:flex-none">
+        <div className="hidden text-center flex-1 md:flex-none">
           <span className="font-medium text-base">
             ক্যারিয়ারে এগিয়ে যেতে দরকারি দক্ষতা অর্জন করুন Azmion এ!
           </span>

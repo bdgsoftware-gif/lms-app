@@ -7,9 +7,11 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import StudentDashboard from "../pages/student/Dashboard";
 import ProtectedRoute from "../auth/ProtectedRoute";
-import LessonWatch from "../pages/student/LessonWatch";
+// import LessonWatch from "../pages/student/LessonWatch";
 import CertificateView from "../pages/student/CertificateView";
 import MainLayout from "../components/layout/MainLayout";
+import StudentLayout from "../layouts/StudentLayout";
+import StudentCoursePlayer from "../pages/student/StudentCoursePlayer";
 
 export const router = createBrowserRouter([
   {
@@ -23,26 +25,19 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/student/dashboard",
+    path: "/student",
     element: (
       <ProtectedRoute>
-        <StudentDashboard />
+        <StudentLayout />
       </ProtectedRoute>
     ),
+    children: [{ path: "dashboard", element: <StudentDashboard /> }],
   },
   {
-    path: "/student/lessons/:lessonId",
+    path: "/student/courses/:courseId",
     element: (
       <ProtectedRoute>
-        <LessonWatch />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/student/lessons/:lessonId",
-    element: (
-      <ProtectedRoute>
-        <LessonWatch />
+        <StudentCoursePlayer />
       </ProtectedRoute>
     ),
   },

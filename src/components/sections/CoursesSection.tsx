@@ -1,14 +1,53 @@
 import { motion } from "framer-motion";
-import { homeCourses } from "../../data/courses";
+// import { homeCourses } from "../../data/courses";
+import { useEffect, useState } from "react";
+import { fetchCourses } from "../../api/course.api";
+import { Link } from "react-router-dom";
+
+interface Course {
+  id: number;
+  title: string;
+  slug: string;
+  image: string;
+  description: string;
+  duration: string;
+  modules_count: number;
+  enrollments_count: number;
+}
 
 const CoursesSection = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetchCourses();
+        setCourses(res.data);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="max-w-8xl mx-auto px-4">
+          <p className="text-center text-gray-500">ডেটা লোড হচ্ছে...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-8xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-14">
           <div className="font-inter">
-            <h2 className="text-[32px] md:text-[42px] leading-relaxed text-text-primary font-normal">আমাদের জনপ্রিয় কোর্সসমূহ</h2>
+            <h2 className="text-4xl font-bold">আমাদের জনপ্রিয় কোর্সসমূহ</h2>
             <p className="mt-6 text-lg text-text-secondary max-w-xl">
               সকল স্তরের জন্য বিশেষভাবে ডিজাইন করা কোর্স
             </p>
@@ -21,7 +60,7 @@ const CoursesSection = () => {
 
         {/* Courses */}
         <div className="space-y-20">
-          {homeCourses.map((course, index) => {
+          {courses.map((course, index) => {
             const isImageRight = index % 2 === 1;
 
             return (
@@ -39,7 +78,7 @@ const CoursesSection = () => {
                 <motion.div
                   whileHover={{ scale: 1.03 }}
                   transition={{ type: "spring", stiffness: 200 }}
-                  className={`w-full bg-[#EAF2F1] p-4 rounded-3xl shadow-lg overflow-hidden ${
+                  className={`w-full bg-bg-card p-4 rounded-3xl shadow-lg overflow-hidden ${
                     isImageRight ? "md:order-2" : ""
                   }`}
                 >
@@ -58,13 +97,13 @@ const CoursesSection = () => {
                     {course.title}
                   </h3>
 
-                  <p className="mt-4 text-lg text-[#5E6F68] font-normal leading-relaxed word-spacing-wide">
+                  <p className="mt-4 text-lg text-text-secondary font-normal leading-relaxed word-spacing-wide">
                     {course.description}
                   </p>
 
                   {/* Meta */}
                   <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-600 font-inter border-t pt-6">
-                    <span className="flex items-center gap-2 bg-[#EAF2F1] px-3 py-2 rounded-lg">
+                    <span className="flex items-center gap-2 bg-bg-card px-3 py-2 rounded-lg">
                       <svg
                         className="w-4 h-4"
                         fill="currentColor"
@@ -74,7 +113,7 @@ const CoursesSection = () => {
                       </svg>
                       {course.duration}
                     </span>
-                    <span className="flex items-center gap-2 bg-[#EAF2F1] px-3 py-2 rounded-lg">
+                    <span className="flex items-center gap-2 bg-bg-card px-3 py-2 rounded-lg">
                       <svg
                         className="w-4 h-4"
                         fill="currentColor"
@@ -82,9 +121,9 @@ const CoursesSection = () => {
                       >
                         <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
                       </svg>
-                      {course.modules} মডিউল
+                      {course.modules_count} মডিউল
                     </span>
-                    <span className="flex items-center gap-2 bg-[#EAF2F1] px-3 py-2 rounded-lg">
+                    <span className="flex items-center gap-2 bg-bg-card px-3 py-2 rounded-lg">
                       <svg
                         className="w-4 h-4"
                         fill="currentColor"
@@ -92,11 +131,14 @@ const CoursesSection = () => {
                       >
                         <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                       </svg>
-                      {course.students.toLocaleString()}+ শিক্ষার্থী
+                      {course.enrollments_count.toLocaleString()}+ শিক্ষার্থী
                     </span>
                   </div>
 
-                  <button className="mt-8 px-6 py-3 bg-[#2F7C74] text-white rounded-lg hover:bg-[#266964] transition-all duration-300 hover:shadow-lg flex items-center gap-2">
+                  <a
+                    href={`/courses/${course.slug}`}
+                    className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-button-primary text-white rounded-lg hover:bg-button-accent hover:shadow-lg transition-all duration-300"
+                  >
                     কোর্সের বিস্তারিত দেখুন
                     <svg
                       className="w-5 h-5"
@@ -111,7 +153,7 @@ const CoursesSection = () => {
                         d="M17 8l4 4m0 0l-4 4m4-4H3"
                       />
                     </svg>
-                  </button>
+                  </a>
                 </div>
               </motion.div>
             );
