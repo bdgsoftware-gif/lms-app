@@ -5,7 +5,7 @@ import WhyStudyWithUsSection from "../../components/sections/WhyStudyWithUsSecti
 import TestimonialsSection from "../../components/sections/TestimonialsSection";
 import PartnersSection from "../../components/sections/PartnersSection";
 import FAQSection from "../../components/sections/FAQSection";
-import NewsletterSection from "../../components/sections/NewsletterSection";
+// import NewsletterSection from "../../components/sections/NewsletterSection";
 
 const Home = () => {
   return (
@@ -17,7 +17,7 @@ const Home = () => {
       <TestimonialsSection />
       <PartnersSection />
       <FAQSection />
-      <NewsletterSection />
+      {/* <NewsletterSection /> */}
     </>
   );
 };

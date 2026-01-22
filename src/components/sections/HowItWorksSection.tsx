@@ -13,7 +13,7 @@ const HowItWorksSection = () => {
       <div className="relative max-w-8xl mx-auto px-4 text-white font-inter">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-[32px] md:text-[42px] leading-relaxed text-text-primary font-normal">
+          <h2 className="text-[32px] md:text-[42px] leading-relaxed text-text-inverse font-normal">
             কীভাবে শুরু করবেন?
           </h2>
           <p className="mt-8 text-white/80">
