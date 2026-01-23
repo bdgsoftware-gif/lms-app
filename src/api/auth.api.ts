@@ -8,6 +8,7 @@ export interface LoginPayload {
 export interface RegisterPayload {
   name: string;
   email: string;
+  phone: string;
   password: string;
   password_confirmation: string;
 }
@@ -24,7 +25,6 @@ export const register = async (payload: RegisterPayload) => {
 
 export const fetchMe = async () => {
   const res = await api.get("/auth/me");
-  // console.log(res.data.user);
   return res.data.user;
 };
 

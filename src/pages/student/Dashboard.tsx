@@ -3,17 +3,19 @@ import StudentStats from "../../student/StudentStats";
 import StudentCourses from "../../student/StudentCourses";
 import { fetchStudentDashboard } from "../../api/dashboard.api";
 import { useAuth } from "../../auth/AuthContext";
+import { DashboardData } from "../../types/dashboard";
+import { logger } from "../../utils/errorHandler";
 
 const StudentDashboard = () => {
   const { user } = useAuth();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchStudentDashboard()
       .then(setData)
       .catch((error) => {
-        console.error("Failed to load dashboard:", error);
+        logger.error("Failed to load dashboard:", error);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -22,7 +24,13 @@ const StudentDashboard = () => {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-primary mx-auto"></div>
+          <div
+            className="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-primary mx-auto"
+            role="status"
+            aria-label="লোড হচ্ছে"
+          >
+            <span className="sr-only">ড্যাশবোর্ড লোড হচ্ছে...</span>
+          </div>
           <p className="text-gray-600 font-medium">ড্যাশবোর্ড লোড হচ্ছে...</p>
         </div>
       </div>

@@ -20,9 +20,12 @@ const CoursesSection = () => {
 
   useEffect(() => {
     const load = async () => {
+      setLoading(true);
       try {
         const res = await fetchCourses();
         setCourses(res.data);
+      } catch (error) {
+        console.error("Failed to load courses:", error);
       } finally {
         setLoading(false);
       }
@@ -42,9 +45,12 @@ const CoursesSection = () => {
             </p>
           </div>
 
-          <button className="mt-6 md:mt-0 px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-[#27665f] transition">
+          <Link
+            to="/courses"
+            className="mt-6 md:mt-0 px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-[#27665f] transition inline-block text-center"
+          >
             আরও কোর্স দেখুন
-          </button>
+          </Link>
         </div>
 
         {/* Courses */}

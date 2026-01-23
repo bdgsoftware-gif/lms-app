@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchCourses } from "../../api/course.api";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { handleApiError } from "../../utils/errorHandler";
 
 interface Course {
   id: number;
@@ -16,10 +17,18 @@ interface Course {
 const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+
     fetchCourses()
       .then((data) => setCourses(data.data))
+      .catch((err) => {
+        const errorMessage = handleApiError(err);
+        setError(errorMessage);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -33,7 +42,23 @@ const Courses = () => {
           </p>
         </div>
 
-        {loading ? (
+        {error ? (
+          <div className="min-h-[60vh] flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <div className="text-red-500 text-5xl">⚠️</div>
+              <h2 className="text-2xl font-bold text-gray-800">
+                কোর্স লোড করতে সমস্যা হয়েছে
+              </h2>
+              <p className="text-gray-600">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-6 py-3 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
+              >
+                আবার চেষ্টা করুন
+              </button>
+            </div>
+          </div>
+        ) : loading ? (
           // Skeleton Grid
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (

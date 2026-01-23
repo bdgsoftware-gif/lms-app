@@ -5,14 +5,17 @@ import { fetchResumeLesson } from "../../api/resume.api";
 import CourseSidebar from "../../student/CourseSidebar";
 import VideoPlayer from "../../student/VideoPlayer";
 import CoursePlayerTopbar from "../../student/CoursePlayerTopbar";
+import { CoursePlayerData, Lesson } from "../../types/coursePlayer";
+import { logger } from "../../utils/errorHandler";
 
 const StudentCoursePlayer = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const [courseData, setCourseData] = useState<any>(null);
+  const [courseData, setCourseData] = useState<CoursePlayerData | null>(null);
   const [activeLessonId, setActiveLessonId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showEnrollPrompt, setShowEnrollPrompt] = useState(false);
 
   useEffect(() => {
     if (!courseId) return;
@@ -27,14 +30,14 @@ const StudentCoursePlayer = () => {
         setCourseData(courseRes);
 
         // Find the lesson to start with
-        const allLessons = courseRes.modules.flatMap((m: any) => m.lessons);
-        const resumeLesson = allLessons.find((l: any) => l.id === resumeLessonId);
+        const allLessons = courseRes.modules.flatMap((m: Module) => m.lessons);
+        const resumeLesson = allLessons.find((l: Lesson) => l.id === resumeLessonId);
 
         // If resume lesson exists and is accessible, use it
         // Otherwise, find first unlocked lesson
         const startLesson = resumeLesson && !resumeLesson.is_locked
           ? resumeLesson
-          : allLessons.find((l: any) => !l.is_locked);
+          : allLessons.find((l: Lesson) => !l.is_locked);
 
         if (!startLesson) {
           setError("No accessible lessons found. Please enroll in this course.");
@@ -43,7 +46,7 @@ const StudentCoursePlayer = () => {
 
         setActiveLessonId(startLesson.id);
       } catch (error: any) {
-        console.error("Failed to load course:", error);
+        logger.error("Failed to load course:", error);
         if (error.response?.status === 403) {
           setError("You don't have access to this course. Please enroll first.");
         } else {
@@ -56,8 +59,8 @@ const StudentCoursePlayer = () => {
   }, [courseId]);
 
   // Get all lessons in order for next/prev navigation
-  const allLessons = courseData?.modules.flatMap((m: any) => m.lessons) || [];
-  const currentIndex = allLessons.findIndex((l: any) => l.id === activeLessonId);
+  const allLessons: Lesson[] = courseData?.modules.flatMap((m) => m.lessons) || [];
+  const currentIndex = allLessons.findIndex((l) => l.id === activeLessonId);
 
   const handleNextLesson = () => {
     if (currentIndex < allLessons.length - 1) {
@@ -84,13 +87,11 @@ const StudentCoursePlayer = () => {
   };
 
   const handleLessonSelect = (lessonId: number) => {
-    const lesson = allLessons.find((l: any) => l.id === lessonId);
+    const lesson = allLessons.find((l: Lesson) => l.id === lessonId);
 
     if (lesson?.is_locked) {
-      // Show enrollment prompt
-      if (confirm("This lesson is locked. Would you like to enroll in this course?")) {
-        navigate(`/courses/${courseId}`); // Navigate to course details page
-      }
+      // Show custom enrollment prompt modal
+      setShowEnrollPrompt(true);
       return;
     }
 
@@ -128,8 +129,8 @@ const StudentCoursePlayer = () => {
   }
 
   // Find next/prev unlocked lessons
-  const hasNext = allLessons.slice(currentIndex + 1).some((l: any) => !l.is_locked);
-  const hasPrev = allLessons.slice(0, currentIndex).some((l: any) => !l.is_locked);
+  const hasNext = allLessons.slice(currentIndex + 1).some((l) => !l.is_locked);
+  const hasPrev = allLessons.slice(0, currentIndex).some((l) => !l.is_locked);
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative">
@@ -173,6 +174,35 @@ const StudentCoursePlayer = () => {
           />
         </main>
       </div>
+
+      {/* Enroll Prompt Modal */}
+      {showEnrollPrompt && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+            <div className="text-center">
+              <div className="text-5xl mb-4">🔒</div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">পাঠটি লক করা</h3>
+              <p className="text-gray-600 mb-6">
+                এই পাঠে অ্যাক্সেস পেতে কোর্সে এনরোল করুন
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowEnrollPrompt(false)}
+                  className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium"
+                >
+                  বাতিল
+                </button>
+                <button
+                  onClick={() => navigate(`/courses/${courseId}`)}
+                  className="flex-1 px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition font-medium"
+                >
+                  এনরোল করুন
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
 import Logo from "../../assets/logo.png";
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const location = useLocation();
+  const [isCoursesDropdownOpen, setIsCoursesDropdownOpen] = useState(false);
 
   const isActive = (path) => {
     if (path === "/") {
@@ -113,7 +115,13 @@ const Navbar = () => {
 
         {/* Right */}
         <div className="flex items-center gap-3 font-inter">
-          {!user ? (
+          {loading ? (
+            // Loading skeleton to prevent auth flash
+            <div className="flex items-center gap-3">
+              <div className="w-20 h-10 bg-gray-200 rounded animate-pulse"></div>
+              <div className="w-24 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+            </div>
+          ) : !user ? (
             <>
               <Link
                 to="/login"
@@ -124,6 +132,7 @@ const Navbar = () => {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -147,12 +156,20 @@ const Navbar = () => {
             </>
           ) : (
             <div className="relative group py-2 px-4 bg-bg-card rounded-full">
-              <div className="flex justify-between items-center gap-2 ">
+              <button
+                className="flex justify-between items-center gap-2"
+                aria-label="ব্যবহারকারী মেনু"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
                 {user?.avatar ? (
                   <img
                     src={user.avatar}
                     alt={user.name}
                     className="w-5 h-5 object-cover rounded-full"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
                   />
                 ) : (
                   <span className="text-lg font-medium text-gray-700">
@@ -160,13 +177,15 @@ const Navbar = () => {
                       .split(" ")
                       .map((n) => n[0])
                       .slice(0, 2)
-                      .join("")}
+                      .join("")
+                      .toUpperCase()}
                   </span>
                 )}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="w-5 h-5 inline-flex"
                   viewBox="0 0 32 32"
+                  aria-hidden="true"
                 >
                   <g data-name="Layer 2">
                     <path
@@ -181,17 +200,31 @@ const Navbar = () => {
                     />
                   </g>
                 </svg>
-              </div>
+              </button>
 
               {/* Hover Menu */}
               <div className="absolute right-0 mt-2 w-56 bg-white shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto border border-gray-100 z-50">
                 <div className="p-4 border-b">
                   <div className="user-card flex items-center justify-start gap-3">
-                    <img
-                      src={user?.avatar}
-                      alt={user.name}
-                      className="w-10 h-10 rounded-full"
-                    />
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center font-semibold">
+                        {user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .slice(0, 2)
+                          .join("")
+                          .toUpperCase()}
+                      </div>
+                    )}
                     <div className="details">
                       <p className="font-semibold text-gray-800">{user.name}</p>
                       <p className="text-sm text-gray-500 truncate">

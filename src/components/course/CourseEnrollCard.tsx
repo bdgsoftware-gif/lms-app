@@ -97,7 +97,7 @@ const CourseEnrollCard = ({ courseId, price }: Props) => {
   ======================= */
   if (enrolled) {
     return (
-      <div className="sticky top-28 bg-white border rounded-xl p-6 shadow-sm text-center">
+      <div className="hidden md:block sticky top-28 bg-white border rounded-xl p-6 shadow-sm text-center">
         <p className="text-green-600 font-semibold mb-4">
           আপনি ইতিমধ্যে এই কোর্সে এনরোল করেছেন
         </p>
@@ -117,7 +117,7 @@ const CourseEnrollCard = ({ courseId, price }: Props) => {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="sticky top-28 bg-white border rounded-xl shadow-sm"
+        className="hidden md:block sticky top-28 bg-white border rounded-xl shadow-sm"
       >
         {/* Header */}
         <div className="px-6 py-4 border-b">

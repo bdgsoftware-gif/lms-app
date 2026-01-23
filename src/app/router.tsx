@@ -1,27 +1,65 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
-import Home from "../pages/public/Home";
-import Courses from "../pages/public/Courses";
-import CourseDetails from "../pages/public/CourseDetails";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import StudentDashboard from "../pages/student/Dashboard";
 import ProtectedRoute from "../auth/ProtectedRoute";
-// import LessonWatch from "../pages/student/LessonWatch";
-import CertificateView from "../pages/student/CertificateView";
 import MainLayout from "../components/layout/MainLayout";
 import StudentLayout from "../layouts/StudentLayout";
-import StudentCoursePlayer from "../pages/student/StudentCoursePlayer";
+import PageLoadingSkeleton from "../components/PageLoadingSkeleton";
+
+// Lazy load pages for better performance
+const Home = lazy(() => import("../pages/public/Home"));
+const Courses = lazy(() => import("../pages/public/Courses"));
+const CourseDetails = lazy(() => import("../pages/public/CourseDetails"));
+const Login = lazy(() => import("../pages/auth/Login"));
+const Register = lazy(() => import("../pages/auth/Register"));
+const StudentDashboard = lazy(() => import("../pages/student/Dashboard"));
+const CertificateView = lazy(() => import("../pages/student/CertificateView"));
+const StudentCoursePlayer = lazy(() => import("../pages/student/StudentCoursePlayer"));
 
 export const router = createBrowserRouter([
   {
     element: <MainLayout />,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/courses", element: <Courses /> },
-      { path: "/courses/:slug", element: <CourseDetails /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<PageLoadingSkeleton />}>
+            <Home />
+          </Suspense>
+        )
+      },
+      {
+        path: "/courses",
+        element: (
+          <Suspense fallback={<PageLoadingSkeleton />}>
+            <Courses />
+          </Suspense>
+        )
+      },
+      {
+        path: "/courses/:slug",
+        element: (
+          <Suspense fallback={<PageLoadingSkeleton />}>
+            <CourseDetails />
+          </Suspense>
+        )
+      },
+      {
+        path: "/login",
+        element: (
+          <Suspense fallback={<PageLoadingSkeleton />}>
+            <Login />
+          </Suspense>
+        )
+      },
+      {
+        path: "/register",
+        element: (
+          <Suspense fallback={<PageLoadingSkeleton />}>
+            <Register />
+          </Suspense>
+        )
+      },
     ],
   },
   {
@@ -31,13 +69,24 @@ export const router = createBrowserRouter([
         <StudentLayout />
       </ProtectedRoute>
     ),
-    children: [{ path: "dashboard", element: <StudentDashboard /> }],
+    children: [
+      {
+        path: "dashboard",
+        element: (
+          <Suspense fallback={<PageLoadingSkeleton />}>
+            <StudentDashboard />
+          </Suspense>
+        )
+      }
+    ],
   },
   {
     path: "/student/courses/:courseId",
     element: (
       <ProtectedRoute>
-        <StudentCoursePlayer />
+        <Suspense fallback={<PageLoadingSkeleton />}>
+          <StudentCoursePlayer />
+        </Suspense>
       </ProtectedRoute>
     ),
   },
@@ -45,7 +94,9 @@ export const router = createBrowserRouter([
     path: "/student/courses/:courseId/certificate",
     element: (
       <ProtectedRoute>
-        <CertificateView />
+        <Suspense fallback={<PageLoadingSkeleton />}>
+          <CertificateView />
+        </Suspense>
       </ProtectedRoute>
     ),
   },
