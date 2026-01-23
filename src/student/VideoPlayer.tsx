@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { fetchLessonVideo } from "../api/coursePlayer.api";
 
 interface WatchData {
@@ -25,26 +25,42 @@ const VideoPlayer = ({
   const [data, setData] = useState<WatchData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const previousDataRef = useRef<WatchData | null>(null);
 
   useEffect(() => {
     const loadVideo = async () => {
       try {
-        setLoading(true);
+        if (data) {
+          setIsTransitioning(true);
+          previousDataRef.current = data;
+        } else {
+          setLoading(true);
+        }
+
         setError(null);
         const videoData = await fetchLessonVideo(lessonId);
         setData(videoData);
-      } catch (error) {
+        previousDataRef.current = null;
+      } catch (error: any) {
         console.error("Failed to load video:", error);
-        setError("ভিডিও লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+
+        if (error.response?.status === 403) {
+          setError("এই পাঠটি লক করা আছে। কোর্সে এনরোল করুন।");
+        } else {
+          setError("ভিডিও লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+        }
       } finally {
         setLoading(false);
+        setIsTransitioning(false);
       }
     };
 
     loadVideo();
   }, [lessonId]);
 
-  if (loading) {
+  // Initial loading state (first load)
+  if (loading && !previousDataRef.current) {
     return (
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="animate-pulse">
@@ -75,13 +91,18 @@ const VideoPlayer = ({
     );
   }
 
-  if (!data) {
+  if (!data && !previousDataRef.current) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6">
         <p className="text-gray-600 text-center">কোনো ভিডিও পাওয়া যায়নি</p>
       </div>
     );
   }
+
+  // Use current data or previous data during transition
+  const displayData = data || previousDataRef.current;
+
+  if (!displayData) return null;
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -91,14 +112,25 @@ const VideoPlayer = ({
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden relative">
+        {/* Loading Overlay - shows during transition */}
+        {isTransitioning && (
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary mx-auto mb-3"></div>
+              <p className="text-sm text-gray-600 font-medium">পরবর্তী পাঠ লোড হচ্ছে...</p>
+            </div>
+          </div>
+        )}
+
         {/* Video Container */}
-        <div className="relative bg-black">
+        <div className={`relative bg-black transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
           <div className="relative w-full aspect-video">
-            {data.video_url ? (
+            {displayData.video_url ? (
               <iframe
-                src={data.video_url}
-                title={data.title}
+                key={displayData.video_url} // Force remount when video changes
+                src={displayData.video_url}
+                title={displayData.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"
@@ -126,11 +158,11 @@ const VideoPlayer = ({
         </div>
 
         {/* Video Info */}
-        <div className="p-6">
+        <div className={`p-6 transition-opacity duration-200 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <h1 className="text-xl font-bold text-gray-900 mb-2">
-                {data.title}
+                {displayData.title}
               </h1>
               <div className="flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
@@ -145,7 +177,7 @@ const VideoPlayer = ({
                       clipRule="evenodd"
                     />
                   </svg>
-                  {formatDuration(data.duration)}
+                  {formatDuration(displayData.duration)}
                 </span>
                 <span className="text-gray-400">•</span>
                 <span>
@@ -159,12 +191,11 @@ const VideoPlayer = ({
           <div className="flex items-center justify-between pt-4 border-t">
             <button
               onClick={onPrev}
-              disabled={!onPrev}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition ${
-                onPrev
+              disabled={!onPrev || isTransitioning}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition ${onPrev && !isTransitioning
                   ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   : "bg-gray-50 text-gray-400 cursor-not-allowed"
-              }`}
+                }`}
             >
               <svg
                 className="w-5 h-5"
@@ -184,27 +215,35 @@ const VideoPlayer = ({
 
             <button
               onClick={onNext}
-              disabled={!onNext}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition ${
-                onNext
+              disabled={!onNext || isTransitioning}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition ${onNext && !isTransitioning
                   ? "bg-brand-primary text-white hover:bg-brand-secondary"
                   : "bg-gray-50 text-gray-400 cursor-not-allowed"
-              }`}
+                }`}
             >
-              পরবর্তী পাঠ
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              {isTransitioning ? (
+                <>
+                  <span className="animate-spin inline-block">⏳</span>
+                  লোড হচ্ছে...
+                </>
+              ) : (
+                <>
+                  পরবর্তী পাঠ
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </>
+              )}
             </button>
           </div>
         </div>

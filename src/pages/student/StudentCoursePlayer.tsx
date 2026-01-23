@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchCoursePlayer } from "../../api/coursePlayer.api";
 import { fetchResumeLesson } from "../../api/resume.api";
 import CourseSidebar from "../../student/CourseSidebar";
@@ -8,57 +8,113 @@ import CoursePlayerTopbar from "../../student/CoursePlayerTopbar";
 
 const StudentCoursePlayer = () => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [courseData, setCourseData] = useState<any>(null);
   const [activeLessonId, setActiveLessonId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!courseId) return;
 
-    Promise.all([
-      fetchCoursePlayer(Number(courseId)),
-      fetchResumeLesson(Number(courseId)),
-    ])
-      .then(([courseRes, resumeLessonId]) => {
+    const loadCourse = async () => {
+      try {
+        const [courseRes, resumeLessonId] = await Promise.all([
+          fetchCoursePlayer(Number(courseId)),
+          fetchResumeLesson(Number(courseId)),
+        ]);
+
         setCourseData(courseRes);
 
         // Find the lesson to start with
         const allLessons = courseRes.modules.flatMap((m: any) => m.lessons);
-        const resumeLesson = allLessons.find(
-          (l: any) => l.id === resumeLessonId && !l.is_locked,
-        );
-        const firstUnlockedLesson = allLessons.find((l: any) => !l.is_locked);
+        const resumeLesson = allLessons.find((l: any) => l.id === resumeLessonId);
 
-        setActiveLessonId(resumeLesson?.id || firstUnlockedLesson?.id || null);
-      })
-      .catch((error) => {
+        // If resume lesson exists and is accessible, use it
+        // Otherwise, find first unlocked lesson
+        const startLesson = resumeLesson && !resumeLesson.is_locked
+          ? resumeLesson
+          : allLessons.find((l: any) => !l.is_locked);
+
+        if (!startLesson) {
+          setError("No accessible lessons found. Please enroll in this course.");
+          return;
+        }
+
+        setActiveLessonId(startLesson.id);
+      } catch (error: any) {
         console.error("Failed to load course:", error);
-      });
+        if (error.response?.status === 403) {
+          setError("You don't have access to this course. Please enroll first.");
+        } else {
+          setError("Failed to load course. Please try again.");
+        }
+      }
+    };
+
+    loadCourse();
   }, [courseId]);
 
   // Get all lessons in order for next/prev navigation
   const allLessons = courseData?.modules.flatMap((m: any) => m.lessons) || [];
-  const currentIndex = allLessons.findIndex(
-    (l: any) => l.id === activeLessonId,
-  );
+  const currentIndex = allLessons.findIndex((l: any) => l.id === activeLessonId);
 
   const handleNextLesson = () => {
     if (currentIndex < allLessons.length - 1) {
-      const nextLesson = allLessons[currentIndex + 1];
-      if (!nextLesson.is_locked) {
-        setActiveLessonId(nextLesson.id);
+      // Find next unlocked lesson
+      for (let i = currentIndex + 1; i < allLessons.length; i++) {
+        if (!allLessons[i].is_locked) {
+          setActiveLessonId(allLessons[i].id);
+          return;
+        }
       }
     }
   };
 
   const handlePrevLesson = () => {
     if (currentIndex > 0) {
-      const prevLesson = allLessons[currentIndex - 1];
-      if (!prevLesson.is_locked) {
-        setActiveLessonId(prevLesson.id);
+      // Find previous unlocked lesson
+      for (let i = currentIndex - 1; i >= 0; i--) {
+        if (!allLessons[i].is_locked) {
+          setActiveLessonId(allLessons[i].id);
+          return;
+        }
       }
     }
   };
+
+  const handleLessonSelect = (lessonId: number) => {
+    const lesson = allLessons.find((l: any) => l.id === lessonId);
+
+    if (lesson?.is_locked) {
+      // Show enrollment prompt
+      if (confirm("This lesson is locked. Would you like to enroll in this course?")) {
+        navigate(`/courses/${courseId}`); // Navigate to course details page
+      }
+      return;
+    }
+
+    setActiveLessonId(lessonId);
+    setSidebarOpen(false);
+  };
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="text-center bg-white p-8 rounded-xl shadow-lg max-w-md">
+          <div className="text-red-500 text-5xl mb-4">🔒</div>
+          <h2 className="text-xl font-bold text-gray-800 mb-2">Access Denied</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={() => navigate("/courses")}
+            className="px-6 py-3 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition"
+          >
+            Browse Courses
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!courseData || !activeLessonId) {
     return (
@@ -71,10 +127,9 @@ const StudentCoursePlayer = () => {
     );
   }
 
-  const hasNext =
-    currentIndex < allLessons.length - 1 &&
-    !allLessons[currentIndex + 1]?.is_locked;
-  const hasPrev = currentIndex > 0 && !allLessons[currentIndex - 1]?.is_locked;
+  // Find next/prev unlocked lessons
+  const hasNext = allLessons.slice(currentIndex + 1).some((l: any) => !l.is_locked);
+  const hasPrev = allLessons.slice(0, currentIndex).some((l: any) => !l.is_locked);
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative">
@@ -96,10 +151,8 @@ const StudentCoursePlayer = () => {
           courseTitle={courseData.course.title}
           modules={courseData.modules}
           activeLessonId={activeLessonId}
-          onLessonSelect={(lessonId) => {
-            setActiveLessonId(lessonId);
-            setSidebarOpen(false);
-          }}
+          isEnrolled={courseData.course.is_enrolled}
+          onLessonSelect={handleLessonSelect}
         />
       </div>
 

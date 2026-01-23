@@ -1,6 +1,5 @@
 import CourseContentLeft from "./CourseContentLeft";
 import CourseEnrollCard from "./CourseEnrollCard";
-// import { courseDetails } from "../../data/courseDetails";
 const CourseLayout = ({ course }) => {
   return (
     <section className="py-20 bg-white">

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import CourseBreadcrumb from "./CourseBreadcrumb";
-import { courseDetails } from "../../data/courseDetails";
+// import { courseDetails } from "../../data/courseDetails";
 import { heroData } from "../../data/home";
 
 const CourseHero = ({ course }) => {

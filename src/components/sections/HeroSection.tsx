@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { heroData } from "../../data/home";
 import HeroBanner from "../../assets/hero-banner.jpg";
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,14 +16,7 @@ const HeroSection = () => {
         stagger: 0.15,
         ease: "power3.out",
       });
-
-      gsap.from(".hero-image", {
-        x: 60,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-      });
-    }, containerRef);
+    });
 
     return () => ctx.revert();
   }, []);
@@ -54,9 +48,11 @@ const HeroSection = () => {
 
           <div className="md:mt-10 flex flex-col items-start gap-4">
             <div className="flex gap-4 items-center">
-              <button className="px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-button-accent transition">
-                কোর্স শুরু করুন
-              </button>
+              <Link to="/courses/quran20">
+                <button className="px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-button-accent transition">
+                  কোর্স শুরু করুন
+                </button>
+              </Link>
               <button className="px-6 py-3.5 bg-white text-text-primary font-inter rounded-3xl hover:bg-button-accent hover:text-brand-premium transition">
                 ফ্রি ওয়েবিনারে যোগ দিন
               </button>
@@ -79,7 +75,7 @@ const HeroSection = () => {
         </div>
 
         {/* Right */}
-        <div className="hero-image md:mt-6">
+        <div className="md:mt-6">
           <div className="w-full h-full rounded-3xl flex items-center justify-center p-4 bg-white">
             <img
               src={HeroBanner}

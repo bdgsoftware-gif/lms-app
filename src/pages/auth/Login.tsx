@@ -1,32 +1,54 @@
 import { useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { useNavigate, Navigate, Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.png";
+
 const Login = () => {
   const { login, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Get the page user came from
+  const from = (location.state as any)?.from || "/student/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
+    if (!email || !password) {
+      setError("ইমেইল এবং পাসওয়ার্ড লিখুন");
+      return;
+    }
+
+    if (loading) return;
+    setLoading(true);
+
     try {
       await login(email, password);
-      navigate("/student/dashboard");
-    } catch {
-      setError("ইমেইল অথবা পাসওয়ার্ড সঠিক নয়");
+      // Redirect back to where they came from
+      navigate(from, { replace: true });
+    } catch (err: any) {
+      console.error(err);
+      const errorMessage =
+        err.response?.data?.message || "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
   if (user) {
-    return <Navigate to="/student/dashboard" />;
+    return <Navigate to={from} replace />;
   }
 
   return (
-    <div className="min-h-[80dvh] flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-6">
+    <div className="min-h-[80dvh] flex items-center justify-center bg-gray-50 px-4 py-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
           <Link to="/" className="flex items-center justify-center">
@@ -44,17 +66,27 @@ const Login = () => {
           </p>
         </div>
 
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm text-center">
+            {error}
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
           <div className="relative font-inter">
             <input
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              type="text"
+              required
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
               placeholder="ইমেইল বা মোবাইল নম্বর লিখুন"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError(""); // Clear error on input change
+              }}
             />
           </div>
 
@@ -62,19 +94,61 @@ const Login = () => {
           <div className="relative font-inter">
             <input
               type="password"
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              placeholder="পাসওয়ার্ড লিখুন"
+              required
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+              placeholder="পাসওয়ার্ড লিখুন"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError(""); // Clear error on input change
+              }}
             />
+          </div>
+
+          {/* Forgot Password */}
+          <div className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-brand-primary hover:underline font-inter"
+            >
+              পাসওয়ার্ড ভুলে গেছেন?
+            </Link>
           </div>
 
           {/* Submit */}
           <button
             type="submit"
-            className="w-full rounded-full bg-button-primary hover:bg-teal-800 text-white py-3 font-medium transition"
+            disabled={loading}
+            className={`w-full rounded-full bg-brand-primary hover:bg-brand-secondary text-white py-3 font-medium transition font-inter ${loading ? "opacity-60 cursor-not-allowed" : ""
+              }`}
           >
-            লগইন করুন
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                লগইন হচ্ছে...
+              </span>
+            ) : (
+              "লগইন করুন"
+            )}
           </button>
         </form>
 
@@ -83,7 +157,7 @@ const Login = () => {
           একাউন্ট নেই?{" "}
           <Link
             to="/register"
-            className="text-brand-primary font-inter font-medium"
+            className="text-brand-primary font-inter font-medium hover:underline"
           >
             রেজিস্ট্রেশন করুন
           </Link>

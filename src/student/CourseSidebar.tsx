@@ -1,7 +1,11 @@
+import { Link } from "react-router-dom";
+import Logo from "../assets/logo.png";
+
 interface Props {
   courseTitle: string;
   modules: any[];
   activeLessonId: number;
+  isEnrolled: boolean;
   onLessonSelect: (lessonId: number) => void;
 }
 
@@ -9,13 +13,20 @@ const CourseSidebar = ({
   courseTitle,
   modules,
   activeLessonId,
+  isEnrolled,
   onLessonSelect,
 }: Props) => {
   return (
     <aside className="w-72 sm:w-80 h-full bg-white border-r overflow-y-auto flex flex-col">
       {/* Course Header */}
-      <div className="p-4 border-b bg-gradient-to-r from-brand-primary to-brand-secondary text-white">
-        <h2 className="font-semibold text-sm line-clamp-2">{courseTitle}</h2>
+      <div className="px-4 py-5 border-b flex flex-col">
+        {/* Logo */}
+        <Link to="/" className="flex items-center">
+          <img src={Logo} alt="C M Moin Academy Logo" className="h-8 w-auto" />
+        </Link>
+        {!isEnrolled && (
+          <p className="text-xs mt-1 opacity-90">Preview Mode - Enroll to unlock all lessons</p>
+        )}
       </div>
 
       {/* Content Header */}
@@ -41,24 +52,22 @@ const CourseSidebar = ({
                 return (
                   <li
                     key={lesson.id}
-                    onClick={() => !isLocked && onLessonSelect(lesson.id)}
-                    className={`px-4 py-3 cursor-pointer text-sm flex items-center justify-between transition-colors ${
-                      isActive
-                        ? "bg-brand-primary text-white border-l-4 border-brand-secondary"
-                        : isLocked
-                          ? "text-gray-400 cursor-not-allowed bg-gray-50"
-                          : "hover:bg-blue-50 text-gray-700"
-                    }`}
+                    onClick={() => onLessonSelect(lesson.id)}
+                    className={`px-4 py-3 cursor-pointer text-sm flex items-center justify-between transition-colors ${isActive
+                      ? "bg-brand-primary text-white border-l-4 border-brand-secondary"
+                      : isLocked
+                        ? "text-gray-400 cursor-not-allowed bg-gray-50 hover:bg-gray-100"
+                        : "hover:bg-blue-50 text-gray-700"
+                      }`}
                   >
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       <span
-                        className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
-                          isActive
-                            ? "bg-white text-brand-primary"
-                            : isLocked
-                              ? "bg-gray-300 text-gray-500"
-                              : "bg-blue-100 text-blue-600"
-                        }`}
+                        className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${isActive
+                          ? "bg-white text-brand-primary"
+                          : isLocked
+                            ? "bg-gray-300 text-gray-500"
+                            : "bg-blue-100 text-blue-600"
+                          }`}
                       >
                         {lessonIndex + 1}
                       </span>
@@ -67,14 +76,12 @@ const CourseSidebar = ({
 
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {lesson.is_free && !isActive && (
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-medium">
                           ফ্রি
                         </span>
                       )}
                       {lesson.is_completed && (
-                        <span
-                          className={isActive ? "text-white" : "text-green-500"}
-                        >
+                        <span className={isActive ? "text-white" : "text-green-500"}>
                           ✓
                         </span>
                       )}
