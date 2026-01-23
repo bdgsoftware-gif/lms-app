@@ -1,73 +1,195 @@
-# React + TypeScript + Vite
+🎓 LMS Frontend (Student & Guest Experience)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Learning Management System (LMS) frontend built with React + TypeScript + Vite, designed for students and guest users.
+This frontend consumes a REST API (Laravel backend) and focuses on excellent UX, performance, and scalability.
 
-Currently, two official plugins are available:
+🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React 18 (with Hooks)
 
-## React Compiler
+TypeScript
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Vite
 
-## Expanding the ESLint configuration
+Tailwind CSS
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React Router DOM
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Axios
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+GSAP (animations)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Framer Motion (micro-interactions)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+React Icons
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+✨ Key Features
+🌐 Public / Guest Features
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Home page with animated hero section
+
+Course listing & filtering
+
+Course details page
+
+Coupon preview & pricing display
+
+Responsive UI (mobile, tablet, desktop)
+
+👨‍🎓 Student Features
+
+Authentication (Login / Register)
+
+Student dashboard
+
+Enrolled courses list
+
+Course video player (YouTube-based)
+
+Module & lesson navigation
+
+Resume last watched lesson
+
+Lesson progress tracking
+
+Certificate access (when completed)
+
+Secure route protection
+
+💳 Enrollment & Payment
+
+Free course enrollment
+
+Coupon application (percentage / fixed / 100%)
+
+bKash payment redirection
+
+Enrollment success handling
+
+Mobile bottom enroll CTA
+
+🧱 Project Structure
+src/
+├── api/                 # Axios API services
+├── auth/                # Auth context & guards
+├── components/          # Reusable UI components
+├── data/                # Static mock data
+├── pages/
+│   ├── public/          # Home, Courses, Course Details
+│   ├── auth/            # Login, Register
+│   └── student/         # Dashboard, Course Player
+├── student/             # Student-specific components
+├── assets/              # Images, icons
+├── router.tsx           # App routing
+├── main.tsx             # App entry
+└── index.css            # Tailwind base styles
+
+🔐 Authentication Flow
+
+Uses Laravel Sanctum (token-based auth)
+
+Auth state managed via AuthContext
+
+Protected routes handled with ProtectedRoute
+
+Auto-redirect after login
+
+📡 API Integration
+
+All API requests are handled via Axios.
+
+Example:
+
+import api from "./axios";
+
+export const fetchCourses = async () => {
+  const res = await api.get("/courses");
+  return res.data;
+};
+
+
+Base API URL is configurable via environment variables.
+
+⚙️ Environment Variables
+
+Create a .env file in the root:
+
+VITE_API_BASE_URL=http://localhost:8000/api
+
+▶️ Getting Started
+1️⃣ Install Dependencies
+npm install
+
+2️⃣ Run Development Server
+npm run dev
+
+
+App will run on:
+
+http://localhost:5173
+
+📱 Responsive Design
+
+Mobile-first approach
+
+Sidebar drawer for course player
+
+Sticky enroll CTA for mobile users
+
+Optimized layouts for tablets & desktops
+
+🎬 Animations
+
+GSAP for hero & section animations
+
+Framer Motion for UI transitions
+
+Optimized for performance
+
+No layout shifts
+
+🧪 Development Notes
+
+React 18 compatible
+
+GSAP used with useLayoutEffect to avoid StrictMode issues
+
+Clean separation of UI & logic
+
+Production-ready patterns followed
+
+🔮 Planned Enhancements
+
+Dark mode
+
+Offline video progress sync
+
+Course reviews & ratings
+
+Downloadable certificates
+
+Student notifications
+
+🤝 Backend Dependency
+
+This frontend expects a Laravel 12 REST API backend with:
+
+Sanctum authentication
+
+Enrollment & payment APIs
+
+Course & lesson endpoints
+
+Backend is maintained in a separate repository
+
+📄 License
+
+This project is for educational & internal use.
+You may adapt it for your own LMS or learning platform.
+
+👤 Author
+
+Rakibul Hasan Joy
+Software Engineer
+📍 Dhaka, Bangladesh
+🔗 GitHub: @rhjoyofficial
