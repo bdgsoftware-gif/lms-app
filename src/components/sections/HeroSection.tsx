@@ -1,10 +1,15 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { heroData } from "../../data/home";
 import HeroBanner from "../../assets/hero-banner.jpg";
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const handleStartCourse = (): void => {
+    navigate("/courses/quran20");
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -54,7 +59,10 @@ const HeroSection = () => {
 
           <div className="md:mt-10 flex flex-col items-start gap-4">
             <div className="flex gap-4 items-center">
-              <button className="px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-button-accent transition">
+              <button
+                onClick={handleStartCourse}
+                className="px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-button-accent transition cursor-pointer"
+              >
                 কোর্স শুরু করুন
               </button>
               <button className="px-6 py-3.5 bg-white text-text-primary font-inter rounded-3xl hover:bg-button-accent hover:text-brand-premium transition">

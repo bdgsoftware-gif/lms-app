@@ -12,7 +12,11 @@ const CourseLayout = ({ course }) => {
 
         {/* Right */}
         <div className="hidden lg:block">
-          <CourseEnrollCard courseId={course.id} price={course.price} />
+          <CourseEnrollCard
+            courseId={course.id}
+            price={Number(course.price)}
+            offerPrice={Number(course.offerPrice)}
+          />
         </div>
       </div>
     </section>

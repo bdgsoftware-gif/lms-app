@@ -59,8 +59,8 @@ const Topbar = () => {
             </svg>
           </a>
 
-          {/* Language Selector */}
-          <div className="relative group ml-3 text-sm">
+          {/* Language Selector - add `group` in className */}
+          <div className="relative  ml-3 text-sm">
             <button className="h-8 w-auto bg-[#495E5C] px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:opacity-90 transition-opacity">
               {/* Bangladesh Flag SVG */}
               <svg className="w-4 h-4" viewBox="0 0 20 16" fill="none">
