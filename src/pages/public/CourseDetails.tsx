@@ -1,6 +1,6 @@
 import CourseHero from "../../components/course/CourseHero";
 import CourseLayout from "../../components/course/CourseLayout";
-import MoreCoursesSlider from "../../components/course/MoreCoursesSlider";
+// import MoreCoursesSlider from "../../components/course/MoreCoursesSlider";
 import FAQSection from "../../components/sections/FAQSection";
 
 import { useParams } from "react-router-dom";
@@ -32,7 +32,7 @@ const CourseDetails = () => {
     <>
       <CourseHero course={course} />
       <CourseLayout course={course} />
-      <MoreCoursesSlider />
+      {/* <MoreCoursesSlider /> */}
       <FAQSection />
     </>
   );

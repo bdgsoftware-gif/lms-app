@@ -1,24 +1,40 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
+import { fetchCourses } from "../../api/course.api";
 import Logo from "../../assets/logo.png";
+
+interface Course {
+  id: number;
+  title: string;
+  slug: string;
+}
+
 const Navbar = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
 
-  const isActive = (path) => {
+  const isActive = (path: string) => {
     if (path === "/") {
       return location.pathname === "/";
     }
     return location.pathname.startsWith(path);
   };
 
-  const coursesDropdown = [
-    { name: "All Courses", path: "/courses" },
-    { name: "Web Development", path: "/courses/web-development" },
-    { name: "Digital Marketing", path: "/courses/digital-marketing" },
-    { name: "Graphic Design", path: "/courses/graphic-design" },
-    { name: "Data Science", path: "/courses/data-science" },
-  ];
+  const [coursesDropdown, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetchCourses();
+        setCourses(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    load();
+  }, []);
 
   return (
     <header className="bg-white shadow-sm border-b-2 border-[#DCE5E1]">
@@ -70,17 +86,17 @@ const Navbar = () => {
 
             {/* Dropdown Menu */}
             <div className="absolute left-0 top-full mt-2 w-56 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100">
-              {coursesDropdown.map((item) => (
+              {coursesDropdown.map((course) => (
                 <Link
-                  key={item.path}
-                  to={item.path}
+                  key={course.id}
+                  to={`/courses/${course.slug}`}
                   className={`block px-4 py-3 hover:bg-green-50 transition-colors border-l-4 ${
-                    isActive(item.path)
+                    isActive(`/courses/${course.slug}`)
                       ? "border-text-primary bg-green-50 text-text-primary font-medium"
                       : "border-transparent text-gray-700"
                   }`}
                 >
-                  {item.name}
+                  {course.title}
                 </Link>
               ))}
             </div>
