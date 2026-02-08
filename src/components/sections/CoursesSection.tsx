@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 // import { homeCourses } from "../../data/courses";
 import { useEffect, useState } from "react";
 import { fetchCourses } from "../../api/course.api";
-import { Link } from "react-router-dom";
 
 interface Course {
   id: number;

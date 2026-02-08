@@ -1,8 +1,12 @@
 import CourseContentLeft from "./CourseContentLeft";
 import CourseEnrollCard from "./CourseEnrollCard";
 import CourseGuidelineSection from "./CourseGuidelineSection";
+import type { Course } from "../../types/course.types";
 
-const CourseLayout = ({ course }) => {
+interface Props {
+  course: Course;
+}
+const CourseLayout = ({ course }: Props) => {
   if (!course) return null;
   if (course.has_demo_video && course.demo_video_url) {
     return (

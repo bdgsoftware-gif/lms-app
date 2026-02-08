@@ -1,7 +1,11 @@
 import { courseDetails } from "../../data/courseDetails";
-import { FaCheck } from "react-icons/fa";
+import type { Course } from "../../types/course.types";
 
-const CourseContentLeft = ({ course }) => {
+interface Props {
+  course: Course;
+}
+const CourseContentLeft = ({ course }: Props) => {
+  const instructor = course.instructor;
   return (
     <div className="space-y-10">
       {/* Instructor */}
@@ -10,35 +14,41 @@ const CourseContentLeft = ({ course }) => {
           কোর্স ইন্সট্রাক্টর
         </h2>
 
-        <div className="flex gap-4 items-start border-y border-text-secondary/50 p-5">
-          {/* Instructor Avatar / Initials */}
-          <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-            {course.instructor.avatar ? (
-              <img
-                src={course.instructor.avatar}
-                alt={course.instructor.name}
-                className="w-full h-full object-cover rounded-full"
-              />
-            ) : (
-              <span className="text-lg font-medium text-gray-700">
-                {course.instructor.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .slice(0, 2)
-                  .join("")}
-              </span>
-            )}
-          </div>
+        {instructor && (
+          <div className="flex gap-4 items-start border-y border-text-secondary/50 p-5">
+            {/* Avatar */}
+            <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+              {instructor.avatar ? (
+                <img
+                  src={instructor.avatar}
+                  alt={instructor.name}
+                  className="w-full h-full object-cover rounded-full"
+                />
+              ) : (
+                <span className="text-lg font-medium text-gray-700">
+                  {instructor.name
+                    .split(" ")
+                    .map((n: string) => n[0])
+                    .slice(0, 2)
+                    .join("")}
+                </span>
+              )}
+            </div>
 
-          <div>
-            <p className="font-medium text-lg font-inter text-text-primary">
-              {course.instructor.name}
-            </p>
-            <p className="mt-3 text-base  text-text-secondary font-normal max-w-2xl">
-              {course.instructor.bio}
-            </p>
+            {/* Info */}
+            <div>
+              <p className="font-medium text-lg font-inter text-text-primary">
+                {instructor.name}
+              </p>
+
+              {instructor.bio && (
+                <p className="mt-3 text-base text-text-secondary font-normal max-w-2xl">
+                  {instructor.bio}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Learning Outcomes */}

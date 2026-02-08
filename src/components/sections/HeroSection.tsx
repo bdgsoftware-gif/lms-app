@@ -41,16 +41,18 @@ const HeroSection = () => {
         {/* Left */}
         <div className="hero-left">
           <h1 className="font-inter text-[32px] md:text-[56px] text-text-primary font-bold !leading-normal">
-            {heroData.title.split(heroData.highlight).map((part, index) => (
-              <React.Fragment key={index}>
-                {part}
-                {index === 0 && (
-                  <span className="text-brand-premium">
-                    {heroData.highlight}
-                  </span>
-                )}
-              </React.Fragment>
-            ))}
+            {heroData.title
+              .split(heroData.highlight)
+              .map((part: string, index: number) => (
+                <React.Fragment key={index}>
+                  {part}
+                  {index === 0 && (
+                    <span className="text-brand-premium">
+                      {heroData.highlight}
+                    </span>
+                  )}
+                </React.Fragment>
+              ))}
           </h1>
 
           <p className="mt-4 md:mt-6 md:text-lg text-text-secondary max-w-md">

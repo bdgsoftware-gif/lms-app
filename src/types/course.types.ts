@@ -6,11 +6,30 @@ export interface Course {
   slug: string;
   description: string;
   image: string;
-  instructor: string;
+
+  price?: number;
+  offerPrice?: number;
+  is_paid?: boolean;
+
+  duration?: string;
+  modules_count?: number;
+  enrollments_count?: number;
+  promo_text?: string;
+  note?: string;
+
   start_at?: string;
   end_at?: string;
   is_accessible?: boolean;
   progress?: number;
+
+  has_demo_video?: boolean;
+  demo_video_url?: string;
+
+  instructor?: {
+    name: string;
+    bio?: string;
+    avatar?: string;
+  };
 }
 
 export interface Module {

@@ -175,7 +175,7 @@ const StudentCourses = ({ courses }: Props) => {
                       navigate(`/student/courses/${course.id}`);
                     }
                   }}
-                  disabled={isLocked}
+                  disabled={!!isLocked}
                   className={`mt-4 w-full py-2 rounded transition ${
                     isLocked
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed"

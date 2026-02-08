@@ -29,8 +29,8 @@ const StudentCoursePlayer = () => {
         setCourseData(courseRes);
 
         // Only set active lesson if course is not locked
-        if (!courseRes.locked) {
-          const allLessons = courseRes.modules.flatMap((m: any) => m.lessons);
+        if (!courseRes.locked && courseRes.modules) {
+          const allLessons = courseRes.modules.flatMap((m) => m.lessons);
           const resumeLesson = allLessons.find(
             (l: any) => l.id === resumeLessonId && !l.is_locked,
           );

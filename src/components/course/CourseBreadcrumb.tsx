@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-
-const CourseBreadcrumb = ({ courseTitle }) => {
+interface Props {
+  courseTitle: string;
+}
+const CourseBreadcrumb = ({ courseTitle }: Props) => {
   return (
     <div className="bg-white shadow-sm border-b-2 border-[#DCE5E1] py-4 font-inter text-lg font-normal ">
       <div className="max-w-8xl mx-auto px-4 text-sm text-text-primary">

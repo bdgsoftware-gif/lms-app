@@ -41,7 +41,7 @@ const Navbar = () => {
       <div className="max-w-8xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src={Logo} alt="C M Moin Academy Logo" className="h-8 w-auto" />
+          <img src={Logo} alt="C M Moin Academy Logo" className="h-12 w-auto" />
         </Link>
 
         {/* Center Nav */}
@@ -174,7 +174,7 @@ const Navbar = () => {
                   <span className="text-lg font-medium text-gray-700">
                     {user.name
                       .split(" ")
-                      .map((n) => n[0])
+                      .map((n: string) => n[0])
                       .slice(0, 2)
                       .join("")}
                   </span>

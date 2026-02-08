@@ -133,7 +133,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-brand-primary text-white hover:bg-brand-secondary"
             }`}
-            disabled={isLocked}
+            disabled={!!isLocked}
           >
             {isLocked ? "লক করা আছে" : "কোর্সে যান"}
           </button>
