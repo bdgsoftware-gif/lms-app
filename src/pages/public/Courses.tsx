@@ -26,13 +26,13 @@ const CourseGrid: React.FC = () => {
 
   if (loading)
     return (
-      <div className="py-20 text-center animate-pulse text-brand-primary">
+      <div className="py-4 md:py-20 text-center animate-pulse text-brand-primary">
         Loading Courses...
       </div>
     );
 
   return (
-    <section className="bg-bg-light py-20 px-4 sm:px-6">
+    <section className="bg-bg-light py-4 md:py-20 px-4 sm:px-6">
       <div className="max-w-[104rem] mx-auto">
         {" "}
         {/* Using your 10xl maxWidth */}

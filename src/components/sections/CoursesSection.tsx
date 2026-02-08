@@ -42,7 +42,7 @@ const CoursesSection = () => {
   }
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-4 md:py-20 bg-white">
       <div className="max-w-8xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-14">
@@ -102,7 +102,7 @@ const CoursesSection = () => {
                   </p>
 
                   {/* Meta */}
-                  <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-600 font-inter border-t pt-6">
+                  <div className="mt-6 flex flex-wrap gap-4 md:gap-6 text-sm text-gray-600 font-inter border-t pt-6">
                     <span className="flex items-center gap-2 bg-bg-card px-3 py-2 rounded-lg">
                       <svg
                         className="w-4 h-4"

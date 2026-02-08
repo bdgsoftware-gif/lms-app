@@ -9,7 +9,7 @@ const CourseHero = ({ course }) => {
     <>
       <CourseBreadcrumb courseTitle={course.title} />
 
-      <section className="bg-gradient-to-b from-[#FBFEFE] to-[#E7F6F5] py-20">
+      <section className="bg-gradient-to-b from-[#FBFEFE] to-[#E7F6F5] py-4 md:py-20">
         <div className="max-w-8xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
           {/* Left */}
           <motion.div
@@ -90,34 +90,40 @@ const CourseHero = ({ course }) => {
               </span>
             </div>
 
-            {/* Promo */}
-            <div className="flex items-center gap-1 mt-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                viewBox="0 0 20 20"
-                fill="#5E6F68"
-              >
-                <path d="M10.625 9.16663C10.625 8.82146 10.3452 8.54163 10 8.54163C9.65483 8.54163 9.375 8.82146 9.375 9.16663V14.1666C9.375 14.5118 9.65483 14.7916 10 14.7916C10.3452 14.7916 10.625 14.5118 10.625 14.1666V9.16663Z" />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M10.0013 1.04163C5.05375 1.04163 1.04297 5.05241 1.04297 9.99996C1.04297 14.9475 5.05375 18.9583 10.0013 18.9583C14.9489 18.9583 18.9596 14.9475 18.9596 9.99996C18.9596 5.05241 14.9489 1.04163 10.0013 1.04163ZM2.29297 9.99996C2.29297 5.74277 5.74411 2.29163 10.0013 2.29163C14.2585 2.29163 17.7096 5.74277 17.7096 9.99996C17.7096 14.2571 14.2585 17.7083 10.0013 17.7083C5.74411 17.7083 2.29297 14.2571 2.29297 9.99996Z"
-                />
-                <path d="M10.8346 6.66665C10.8346 7.12688 10.4616 7.49998 10.0013 7.49998C9.54105 7.49998 9.16797 7.12688 9.16797 6.66665C9.16797 6.20641 9.54105 5.83331 10.0013 5.83331C10.4616 5.83331 10.8346 6.20641 10.8346 6.66665Z" />
-              </svg>
-              <span className="text-base text-text-secondary font-normal ">
-                {course.promo_text}
-              </span>
-            </div>
+            {/* Promo text */}
+            {course.promo_text && (
+              <div className="flex items-center gap-1 mt-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  viewBox="0 0 20 20"
+                  fill="#5E6F68"
+                >
+                  <path d="M10.625 9.16663C10.625 8.82146 10.3452 8.54163 10 8.54163C9.65483 8.54163 9.375 8.82146 9.375 9.16663V14.1666C9.375 14.5118 9.65483 14.7916 10 14.7916C10.3452 14.7916 10.625 14.5118 10.625 14.1666V9.16663Z" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M10.0013 1.04163C5.05375 1.04163 1.04297 5.05241 1.04297 9.99996C1.04297 14.9475 5.05375 18.9583 10.0013 18.9583C14.9489 18.9583 18.9596 14.9475 18.9596 9.99996C18.9596 5.05241 14.9489 1.04163 10.0013 1.04163ZM2.29297 9.99996C2.29297 5.74277 5.74411 2.29163 10.0013 2.29163C14.2585 2.29163 17.7096 5.74277 17.7096 9.99996C17.7096 14.2571 14.2585 17.7083 10.0013 17.7083C5.74411 17.7083 2.29297 14.2571 2.29297 9.99996Z"
+                  />
+                  <path d="M10.8346 6.66665C10.8346 7.12688 10.4616 7.49998 10.0013 7.49998C9.54105 7.49998 9.16797 7.12688 9.16797 6.66665C9.16797 6.20641 9.54105 5.83331 10.0013 5.83331C10.4616 5.83331 10.8346 6.20641 10.8346 6.66665Z" />
+                </svg>
+                <span className="text-base text-text-secondary font-normal ">
+                  {course.promo_text}
+                </span>
+              </div>
+            )}
           </motion.div>
         </div>
       </section>
-      <section className="py-4 bg-bg-primary flex items-center justify-center gap-2 text-xl text-text-inverse text-center">
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <section className="py-4 px-4 md:px-0 bg-bg-primary flex items-start md:items-center justify-center gap-0 md:gap-2 text-base md:text-xl text-text-inverse text-center">
+        <svg
+          className="w-6 h-6 md:w-5 md:h-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
         </svg>
-        <span>প্রোমো কোডের মেয়াদ : ঈদের দিন রাত ১১.৫৯ টা পর্যন্ত</span>
+        <span>{course.note}</span>
       </section>
     </>
   );

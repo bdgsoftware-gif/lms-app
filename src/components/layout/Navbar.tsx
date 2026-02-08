@@ -152,11 +152,11 @@ const Navbar = () => {
               </Link>
 
               {/* Divider */}
-              <span className="h-6 w-px bg-gray-300"></span>
+              <span className="h-6 w-px bg-gray-300 hidden md:block"></span>
 
               <Link
                 to="/register"
-                className="px-6 py-3 font-inter text-white rounded-3xl bg-button-primary hover:bg-button-accent transition-colors flex items-center gap-2"
+                className=" hidden md:flex px-6 py-3 font-inter text-white rounded-3xl bg-button-primary hover:bg-button-accent transition-colors items-center gap-2"
               >
                 সাইন আপ
               </Link>

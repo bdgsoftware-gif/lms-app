@@ -4,7 +4,7 @@ import {
   login as loginApi,
   logout as logoutApi,
 } from "../api/auth.api";
-import { User } from "../types/auth";
+import type { User } from "../types/auth";
 
 interface AuthContextType {
   user: User | null;
@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("token");
     setUser(null);
   };
-
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}

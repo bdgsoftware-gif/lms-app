@@ -1,10 +1,10 @@
 const Topbar = () => {
   return (
     <div className="bg-[#102B29] text-white text-sm font-inter">
-      <div className="max-w-8xl mx-auto px-4 h-10 md:h-16 flex items-center justify-between">
+      <div className="max-w-8xl mx-auto px-4 h-10 md:h-16 flex items-center justify-evenly md:justify-between">
         {/* Left */}
-        <div className="hidden md:flex gap-4 text-white text-sm">
-          <span className="flex items-center gap-1">
+        <div className="flex gap-4 text-white text-sm">
+          <span className="hidden md:flex items-center gap-1">
             {/* Envelope SVG */}
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
               <path d="M12.667.667H3.333A3.337 3.337 0 0 0 0 4v8a3.34 3.34 0 0 0 3.333 3.333h9.334A3.337 3.337 0 0 0 16 12V4A3.337 3.337 0 0 0 12.667.667M3.333 2h9.334a2 2 0 0 1 1.853 1.258L9.415 8.364a2.005 2.005 0 0 1-2.83 0L1.48 3.258A2 2 0 0 1 3.333 2m9.334 12H3.333a2 2 0 0 1-2-2V5l4.31 4.307a3.34 3.34 0 0 0 4.714 0L14.667 5v7a2 2 0 0 1-2 2" />
@@ -21,7 +21,7 @@ const Topbar = () => {
         </div>
 
         {/* Center */}
-        <div className="hidden text-center flex-1 md:flex-none">
+        <div className="hidden md:flex text-center flex-1 items-center justify-center gap-2">
           <span className="font-medium text-base">
             ক্যারিয়ারে এগিয়ে যেতে দরকারি দক্ষতা অর্জন করুন Azmion এ!
           </span>
@@ -60,7 +60,7 @@ const Topbar = () => {
           </a>
 
           {/* Language Selector - add `group` in className */}
-          <div className="relative  ml-3 text-sm">
+          <div className="relative hidden md:block ml-3 text-sm">
             <button className="h-8 w-auto bg-[#495E5C] px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:opacity-90 transition-opacity">
               {/* Bangladesh Flag SVG */}
               <svg className="w-4 h-4" viewBox="0 0 20 16" fill="none">

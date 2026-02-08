@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import Logo from "../assets/logo.png";
 interface Props {
   courseTitle: string;
   modules: any[];
@@ -5,17 +7,15 @@ interface Props {
   onLessonSelect: (lessonId: number) => void;
 }
 
-const CourseSidebar = ({
-  courseTitle,
-  modules,
-  activeLessonId,
-  onLessonSelect,
-}: Props) => {
+const CourseSidebar = ({ modules, activeLessonId, onLessonSelect }: Props) => {
   return (
     <aside className="w-72 sm:w-80 h-full bg-white border-r overflow-y-auto flex flex-col">
       {/* Course Header */}
-      <div className="p-4 border-b bg-gradient-to-r from-brand-primary to-brand-secondary text-white">
-        <h2 className="font-semibold text-sm line-clamp-2">{courseTitle}</h2>
+      <div className="p-4 border-b bg-gradient-to-b from-brand-primary to-brand-secondary text-white">
+        {/* Logo */}
+        <Link to="/" className="flex items-center">
+          <img src={Logo} alt="C M Moin Academy Logo" className="h-8 w-auto" />
+        </Link>
       </div>
 
       {/* Content Header */}

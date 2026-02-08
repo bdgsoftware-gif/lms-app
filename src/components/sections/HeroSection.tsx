@@ -37,7 +37,7 @@ const HeroSection = () => {
       ref={containerRef}
       className="bg-gradient-to-b from-[#FBFEFE] to-[#E7F6F5]"
     >
-      <div className="max-w-8xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-10 items-center">
+      <div className="max-w-8xl mx-auto px-4 py-4 md:py-20 grid md:grid-cols-2 gap-10 items-center">
         {/* Left */}
         <div className="hero-left">
           <h1 className="font-inter text-[32px] md:text-[56px] text-text-primary font-bold !leading-normal">
@@ -53,24 +53,24 @@ const HeroSection = () => {
             ))}
           </h1>
 
-          <p className="mt-6 md:text-lg text-text-secondary max-w-md">
+          <p className="mt-4 md:mt-6 md:text-lg text-text-secondary max-w-md">
             {heroData.subtitle}
           </p>
 
-          <div className="md:mt-10 flex flex-col items-start gap-4">
-            <div className="flex gap-4 items-center">
+          <div className="mt-4 md:mt-10 flex flex-col items-start gap-4">
+            <div className="flex gap-2 md:gap-4 items-center">
               <button
                 onClick={handleStartCourse}
-                className="px-6 py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-button-accent transition cursor-pointer"
+                className="px-4 py-3 md:px-6 md:py-3.5 bg-button-primary text-white font-inter rounded-3xl hover:bg-button-accent transition cursor-pointer"
               >
                 কোর্স শুরু করুন
               </button>
-              <button className="px-6 py-3.5 bg-white text-text-primary font-inter rounded-3xl hover:bg-button-accent hover:text-brand-premium transition">
+              <button className="px-4 py-3 md:px-6 md:py-3.5 bg-white text-text-primary font-inter rounded-3xl hover:bg-button-accent hover:text-brand-premium transition">
                 ফ্রি ওয়েবিনারে যোগ দিন
               </button>
             </div>
 
-            <div className="flex items-center -space-x-3">
+            <div className="mt-4 md:mt-0 flex items-center -space-x-3">
               {heroData.users.map((img, i) => (
                 <img
                   key={i}

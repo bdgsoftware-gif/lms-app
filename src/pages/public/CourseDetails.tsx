@@ -20,7 +20,7 @@ const CourseDetails = () => {
 
   if (!course) {
     return (
-      <section className="py-20 bg-white">
+      <section className="py-4 md:py-20 bg-white">
         <div className="max-w-8xl mx-auto px-4">
           <p className="text-center text-gray-500">ডেটা লোড হচ্ছে...</p>
         </div>
