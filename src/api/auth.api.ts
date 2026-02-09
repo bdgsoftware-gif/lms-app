@@ -1,5 +1,6 @@
 import api from "./axios";
 import { initCsrf } from "./csrf";
+
 export interface LoginPayload {
   email: string;
   password: string;
@@ -13,46 +14,34 @@ export interface RegisterPayload {
 }
 
 /**
- * LOGIN (needs cookies)
+ * LOGIN
  */
 export const login = async (payload: LoginPayload) => {
   await initCsrf();
-  const res = await api.post("/auth/login", payload, {
-    withCredentials: true, // ✅ ADD HERE
-  });
+  const res = await api.post("/auth/login", payload);
   return res.data;
 };
 
 /**
- * REGISTER (needs cookies)
+ * REGISTER
  */
 export const register = async (payload: RegisterPayload) => {
   await initCsrf();
-  const res = await api.post("/auth/register", payload, {
-    withCredentials: true, // ✅ ADD HERE
-  });
+  const res = await api.post("/auth/register", payload);
   return res.data;
 };
 
 /**
- * GET AUTH USER (needs cookies)
+ * GET AUTH USER
  */
 export const fetchMe = async () => {
-  const res = await api.get("/auth/me", {
-    withCredentials: true, // ✅ ADD HERE
-  });
+  const res = await api.get("/auth/me");
   return res.data.user;
 };
 
 /**
- * LOGOUT (needs cookies)
+ * LOGOUT
  */
 export const logout = async () => {
-  await api.post(
-    "/auth/logout",
-    {},
-    {
-      withCredentials: true, // ✅ ADD HERE
-    }
-  );
+  await api.post("/auth/logout");
 };

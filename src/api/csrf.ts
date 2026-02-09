@@ -1,7 +1,7 @@
-import api from "./axios";
+import axios from "axios";
 
 export const initCsrf = async () => {
-  await api.get("/sanctum/csrf-cookie", {
+  await axios.get("https://api.cmmoin.academy/sanctum/csrf-cookie", {
     withCredentials: true,
   });
 };
