@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { register } from "../../api/auth.api";
-import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 
 const Register = () => {
+  const { register, user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -28,19 +30,23 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (loading) return; // prevent double clicks
+    if (loading) return;
     setLoading(true);
+    setError("");
 
     try {
-      await register(form); // call your API
-      navigate("/login"); // go to login page
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
+      await register(form);
+      navigate("/student/dashboard");
+    } catch {
+      setError("রেজিস্ট্রেশন সম্পন্ন হয়নি। আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }
   };
+
+  if (user) {
+    return <Navigate to="/student/dashboard" />;
+  }
 
   return (
     <div className="min-h-[80dvh] flex items-center justify-center bg-gray-50 px-4">
@@ -61,6 +67,14 @@ const Register = () => {
             আপনার শেখা আবার শুরু করুন
           </p>
         </div>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <p className="text-red-600 text-sm text-center font-inter">
+              {error}
+            </p>
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 font-inter">

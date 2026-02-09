@@ -16,4 +16,23 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Handle 401 responses — clear stale token and redirect to login
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("auth_token");
+
+      // Only redirect if not already on an auth page to avoid loops
+      if (
+        !window.location.pathname.startsWith("/login") &&
+        !window.location.pathname.startsWith("/register")
+      ) {
+        window.location.href = "/login";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default api;
