@@ -127,6 +127,13 @@ const CourseEnrollCard = ({ courseId, price, offerPrice, mobileOnly }: Props) =>
         enrolled={enrolled}
         loading={loading}
         onEnroll={handleEnroll}
+        coupon={coupon}
+        onCouponChange={setCoupon}
+        onApplyCoupon={handleApplyCoupon}
+        couponLoading={couponLoading}
+        couponApplied={couponApplied}
+        error={error}
+        success={success}
       />
     );
   }
@@ -292,6 +299,13 @@ const CourseEnrollCard = ({ courseId, price, offerPrice, mobileOnly }: Props) =>
         enrolled={enrolled}
         loading={loading}
         onEnroll={handleEnroll}
+        coupon={coupon}
+        onCouponChange={setCoupon}
+        onApplyCoupon={handleApplyCoupon}
+        couponLoading={couponLoading}
+        couponApplied={couponApplied}
+        error={error}
+        success={success}
       />
     </>
   );
