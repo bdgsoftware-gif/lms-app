@@ -70,7 +70,7 @@ const Login = () => {
           <div className="relative font-inter">
             <input
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
-              placeholder="ইমেইল বা মোবাইল নম্বর লিখুন"
+              placeholder="ইমেইল লিখুন"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
