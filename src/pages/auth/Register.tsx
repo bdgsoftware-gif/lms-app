@@ -107,7 +107,7 @@ const Register = () => {
           {/* Name */}
           <input
             className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="আপনার পুরো নাম লিখুন"
+            placeholder="আপনার পুরো নাম লিখুন (ইংরেজিতে)"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
@@ -115,7 +115,7 @@ const Register = () => {
           {/* Phone */}
           <input
             className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="মোবাইল নম্বর লিখুন"
+            placeholder="মোবাইল নম্বর লিখুন (ইংরেজিতে)"
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
@@ -123,7 +123,7 @@ const Register = () => {
           {/* Email */}
           <input
             className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="ইমেইল লিখুন"
+            placeholder="ইমেইল লিখুন (ইংরেজিতে)"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
@@ -133,7 +133,7 @@ const Register = () => {
             <input
               type={showPassword ? "text" : "password"}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              placeholder="পাসওয়ার্ড লিখুন"
+              placeholder="পাসওয়ার্ড লিখুন (ইংরেজিতে)"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
@@ -187,7 +187,7 @@ const Register = () => {
             <input
               type={showConfirmPassword ? "text" : "password"}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              placeholder="পাসওয়ার্ড আবার লিখুন"
+              placeholder="পাসওয়ার্ড আবার লিখুন (ইংরেজিতে)"
               value={form.password_confirmation}
               onChange={(e) =>
                 setForm({ ...form, password_confirmation: e.target.value })
